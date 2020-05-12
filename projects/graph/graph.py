@@ -59,6 +59,17 @@ class Graph:
 
         This should be done using recursion.
         """
+        visited = {starting_vertex}
+
+        def dft_print(starting_vertex):
+            print(starting_vertex)
+            for v in self.get_neighbors(starting_vertex):
+                if v not in visited:
+                    visited.add(v)
+                    dft_print(v)
+
+        dft_print(starting_vertex)
+
         pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -67,7 +78,24 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        queue = Queue()
+        visited = set()
+        path = [starting_vertex]
+        queue.enqueue(path)
+
+        while queue.size() > 0:
+            path = queue.dequeue()
+            vertex = path[-1]
+
+            if vertex == destination_vertex:
+                return path
+
+            if vertex not in visited:
+                visited.add(vertex)
+                for neighbor in self.get_neighbors(vertex):
+                    new_path = path[:]
+                    new_path.append(neighbor)
+                    queue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -75,7 +103,24 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        stack = Stack()
+        visited = set()
+        path = [starting_vertex]
+        stack.push(path)
+
+        while stack.size() > 0:
+            path = stack.pop()
+            vertex = path[-1]
+
+            if vertex == destination_vertex:
+                return path
+
+            if vertex not in visited:
+                visited.add(vertex)
+                for neighbor in self.get_neighbors(vertex):
+                    new_path = path[:]
+                    new_path.append(neighbor)
+                    stack.push(new_path)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -85,7 +130,26 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        def dft_helper(vertex, visited):
+
+            if vertex == destination_vertex:
+                return [vertex]
+
+            if vertex not in visited:
+                visited.add(vertex)
+
+                if self.get_neighbors(vertex) is None:
+                    return None
+
+                for neighbor in self.get_neighbors(vertex):
+                    path = dft_helper(neighbor, visited)
+                    if path:
+                        return [vertex, *path]
+
+        visited = set()
+        path = dft_helper(starting_vertex, visited)
+
+        return path
 
 
 if __name__ == '__main__':
