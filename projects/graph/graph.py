@@ -27,30 +27,32 @@ class Graph:
         # use a queue
         # add node(starting_vertex) to queue
         # dequeue node, add node to visited, queue neighbors
-        visited = {starting_vertex}
+        visited = set()
         queue = Queue()
-        queue.enqueue(starting_vertex)
+        queue.enqueue(starting_vertex)  # enqueue starting_vertex
+        visited.add(starting_vertex)  # add starting_vertex to visited
 
         while queue.size() > 0:
-            u = queue.dequeue()
-            print(u)
-            for v in self.get_neighbors(u):
+            u = queue.dequeue()  # item popped at index 0
+            print(u)  # print that item
+            for v in self.get_neighbors(u):  # loop through the neighbors
                 if v not in visited:
-                    queue.enqueue(v)
-                    visited.add(v)
+                    visited.add(v)  # add each one to the visited set
+                    queue.enqueue(v)  # enqueue each one (append to queue)
 
     def dft(self, starting_vertex):
-        visited = {starting_vertex}
+        visited = set()
         stack = Stack()
         stack.push(starting_vertex)
+        visited.add(starting_vertex)
 
         while stack.size() > 0:
-            u = stack.pop()
-            print(u)
+            u = stack.pop()  # item popped at last index
+            print(u)  # print that item
             for v in self.get_neighbors(u):
                 if v not in visited:
-                    stack.push(v)
                     visited.add(v)
+                    stack.push(v)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -59,18 +61,19 @@ class Graph:
 
         This should be done using recursion.
         """
-        visited = {starting_vertex}
+        visited = set()
+        visited.add(starting_vertex)
 
+        # make a function to call recursively
         def dft_print(starting_vertex):
-            print(starting_vertex)
-            for v in self.get_neighbors(starting_vertex):
+            print(starting_vertex)  # print the node
+            for v in self.get_neighbors(starting_vertex):  # get the neighbors
                 if v not in visited:
-                    visited.add(v)
+                    visited.add(v)  # add them to visited
+                    # recursively pass each neighbor into the function
                     dft_print(v)
 
         dft_print(starting_vertex)
-
-        pass  # TODO
 
     def bfs(self, starting_vertex, destination_vertex):
         """
